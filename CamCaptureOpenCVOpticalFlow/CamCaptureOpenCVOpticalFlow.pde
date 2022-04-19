@@ -5,24 +5,25 @@ import java.awt.*;
 Capture cam_;
 OpenCV opencv_;
 
-int videoWidth_ = 320;
-int videoHeight_ = 180;
-
+// Définition format vidéo
+int videoWidth_ = 1280;
+int videoHeight_ = 720;
+// Tableau des frames images de 2
 PImage[] frames_ = new PImage[2];
 int currentFrameIndex_ = 0;
 boolean first_ = true;
 int scale_ = 6;
-PImage fullFrame_ = new PImage(videoWidth_*scale_,videoHeight_*scale_);
+PImage fullFrame_ = new PImage(videoWidth_*scale_,videoHeight_*scale_); // Création de la fullFrame
 
 Flow flow_ = null;
 HotSpot[] hotSpots_ = new HotSpot[6];
-float flowMagMin_ = 3.0;
+float flowMagMin_ = 3.0; // Magnitude minimum consignée paramètre de déclenchement de la détection
 
 //============
 void setup() {
   
-  fullScreen();
-  //size(320,180);
+  //fullScreen();
+  size(1280,720);
 
   String[] cameras = Capture.list();
   
@@ -39,10 +40,10 @@ void setup() {
     // element from the array returned by list():
     cam_ = new Capture(this, videoWidth_, videoHeight_, "Caméra FaceTime HD (intégrée)", 30);
     
-    opencv_ = new OpenCV(this, videoWidth_, videoHeight_);
+    opencv_ = new OpenCV(this, videoWidth_, videoHeight_); // Création de l'objet OpenCV qui prend en paramètre les mensuration de la vidéo 
     
-    flow_ = opencv_.flow;
-    
+    flow_ = opencv_.flow; // Init nécéssaire au fonctionnement d'OpticalFlow d'OpenCV
+    // Def des paramètres
     flow_.setPyramidScale(0.5); // default : 0.5
     flow_.setLevels(1); // default : 4
     flow_.setWindowSize(8); // default : 8
@@ -56,6 +57,7 @@ void setup() {
     
     int x = m;
     int y = m;
+    // Définition des pointsChauds dans l'espace vectoriel
     hotSpots_[0] = new HotSpot(x,y,w,h);
     
     x = videoWidth_ / 2 - w / 2;
@@ -107,13 +109,13 @@ void draw() {
       scale(scale_);
       opencv_.drawOpticalFlow();
       
-      noFill();
-      stroke(0,255,0);
-      strokeWeight(1.);
+      noFill(); // Contour rectange seulement
+      stroke(0,255,0); // Couleur rectange
+      strokeWeight(1.); // Largeur contour rectange
       for ( int i = 0 ; i < 6 ; i++ ) {
-        PVector p = flow_.getAverageFlowInRegion(hotSpots_[i].x,hotSpots_[i].y,hotSpots_[i].w,hotSpots_[i].h);
-        if ( p.mag() > flowMagMin_ ) {
-          rect(hotSpots_[i].x,hotSpots_[i].y,hotSpots_[i].w,hotSpots_[i].h);
+        PVector p = flow_.getAverageFlowInRegion(hotSpots_[i].x,hotSpots_[i].y,hotSpots_[i].w,hotSpots_[i].h); // Création des vecteurs avec leur magnitude
+        if ( p.mag() > flowMagMin_ ) { // Detection du seuil de la magnitude du vecteur mouvement
+          rect(hotSpots_[i].x,hotSpots_[i].y,hotSpots_[i].w,hotSpots_[i].h); // Si oui, création du rectange de détection signalant le mouvement (rapide car traitement de chaque frame)
         }
       }
      
@@ -130,8 +132,8 @@ void captureEvent(Capture c) {
   synchronized(this) {
     
     c.read();
-    //opencv.useColor(RGB);
-    opencv_.useGray();
+    opencv_.useColor(RGB);
+    //opencv_.useGray();
     opencv_.loadImage(cam_);
     opencv_.flip(OpenCV.HORIZONTAL);
     opencv_.calculateOpticalFlow();
