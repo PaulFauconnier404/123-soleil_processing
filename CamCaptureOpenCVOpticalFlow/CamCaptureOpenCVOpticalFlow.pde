@@ -6,6 +6,8 @@ Capture cam_;
 OpenCV opencv_;
 
 // Définition format vidéo
+// Valeures par défaut : H: 180 W: 320
+
 int videoWidth_ = 1280;
 int videoHeight_ = 720;
 // Tableau des frames images de 2
@@ -23,6 +25,7 @@ float flowMagMin_ = 3.0; // Magnitude minimum consignée paramètre de déclench
 void setup() {
   
   //fullScreen();
+  // Ajouter les mêmes valeurs que les variables videoWidth_ et videoHeight_ dans les paramètres de size()
   size(1280,720);
 
   String[] cameras = Capture.list();
@@ -132,8 +135,8 @@ void captureEvent(Capture c) {
   synchronized(this) {
     
     c.read();
-    opencv_.useColor(RGB);
-    //opencv_.useGray();
+    //opencv_.useColor(RGB);
+    opencv_.useGray();
     opencv_.loadImage(cam_);
     opencv_.flip(OpenCV.HORIZONTAL);
     opencv_.calculateOpticalFlow();
