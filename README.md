@@ -1,9 +1,12 @@
 # 1 2 3 🌞
 
 Game for school project
+(Implementation is now under dev.
+Available for MacOS/Linux like & Windows (change string cam name).
 
 ## Installation 💿
-
+Need to install another librarie for stopwatch implementation. 
+Check the console log to know how it's called. Unzip, paste it in /Doc/Processing/library/
 ## Usage ⚔️
 
 ## Contributing 🛠
