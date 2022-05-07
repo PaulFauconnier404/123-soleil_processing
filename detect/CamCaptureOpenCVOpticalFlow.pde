@@ -34,6 +34,17 @@ PShape H1;
 PShape H2;
 int lifeCircle = 0;
 
+//Initiatialisation des variables 
+int indexText, time, tmpTime, tmpTimeMain;
+int sizeToReturn = 100;
+
+int windowWidth_ = 800, windowHeight_ = 800;
+String[] valueToDisplay = {"1","2","3", "Soleil"};
+PFont FontCountDown;
+
+
+Timer T1 = new Timer();
+
 //============
 void setup() {
   //Creating a stopwatch to keep time
@@ -104,14 +115,40 @@ void setup() {
 
     cam_.start();
   }
+  
+  FontCountDown = createFont("data/Oleo_Script/OleoScript-Regular.ttf", 100);
+  tmpTimeMain = 0;
+  indexText = 0;
 }
 
 //===========
 void draw() {
+    
+   time = millis();
+   
+   
+                  Detection();
+
+   if(time > tmpTimeMain +5000 && time < tmpTimeMain +5100){
+     indexText = 0;
+
+   }
+   if(time > tmpTimeMain +5000 && time < tmpTimeMain +9000){     
+      T1.countDown();
+   }
+   if(time > tmpTimeMain +9000){
+      tmpTimeMain = time; 
+
+   }
+
+}
+void Compteur(){
+   
+}
+void Detection(){
 
   synchronized(this) {
 
-    background(0, 0, 0);
 
     if ( frames_[currentFrameIndex_] != null ) {
 
