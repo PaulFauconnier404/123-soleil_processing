@@ -17,13 +17,13 @@ class Timer {
     textFont(FontCountDown, growText());
   
     //Positionnement du texte
-    text(valueToDisplay[indexText], windowHeight_/2, windowWidth_/2);
+    text(valueToDisplay[indexText], width/2, height/2);
     fill(32,32,32);
   
     textAlign(CENTER, CENTER);
     
     //Positionnement de l'ombre
-    text(valueToDisplay[indexText], (windowHeight_/2), (windowWidth_/2)-7 );
+    text(valueToDisplay[indexText], (width/2), (height/2)-7 );
     fill(180,180,180);
      
   
