@@ -1,7 +1,7 @@
 class Timer {
 
   void countDown(){
-    
+    background(255);
     //Changement des attributs chaque secondes
     if(time > tmpTime +1000){
       tmpTime = time; 

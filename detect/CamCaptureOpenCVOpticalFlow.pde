@@ -127,7 +127,6 @@ void draw() {
    time = millis();
    
    
-                  Detection();
 
    if(time > tmpTimeMain +5000 && time < tmpTimeMain +5100){
      indexText = 0;
@@ -135,16 +134,17 @@ void draw() {
    }
    if(time > tmpTimeMain +5000 && time < tmpTimeMain +9000){     
       T1.countDown();
+   }else{
+    Detection();
    }
    if(time > tmpTimeMain +9000){
       tmpTimeMain = time; 
 
    }
+                 
 
 }
-void Compteur(){
-   
-}
+
 void Detection(){
 
   synchronized(this) {
