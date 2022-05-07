@@ -38,7 +38,6 @@ int lifeCircle = 0;
 int indexText, time, tmpTime, tmpTimeMain;
 int sizeToReturn = 100;
 
-int windowWidth_ = 800, windowHeight_ = 800;
 String[] valueToDisplay = {"1","2","3", "Soleil"};
 PFont FontCountDown;
 
@@ -192,10 +191,11 @@ void Detection(){
           rect(hotSpots_[i].x, hotSpots_[i].y, hotSpots_[i].w, hotSpots_[i].h); // Si oui, création du rectange de détection signalant le mouvement (rapide car traitement de chaque frame)
         }
       }
+      int standard = (width/2)-100;
       //Draw hearts (Coeur, ecart gauche a droite, hauteur, taille)
-      shape(H0, 10, 10, 15, 15);
-      shape(H1, 25, 10, 15, 15);
-      shape(H2, 40, 10, 15, 15);
+      shape(H0, videoWidth_-20, 10, 15, 15);
+      shape(H1, videoWidth_-40, 10, 15, 15);
+      shape(H2, videoWidth_-60, 10, 15, 15);
     }
     first_ = false;
   }
@@ -238,9 +238,9 @@ void Detection(){
   //Use these if you want
   text(s.hour() + ":" + nf(s.minute(), 2) + ":" + nf(s.second(), 2) + ":" + nf(s.millis(), 3), 10, 36.6);
   textSize(3.6);
-  text("Program execution SoC millis :", 10, 44);
-  text(str(s.time()), 56, 44);
-  text("Press 'P' to pause/resume, 'R' to restart and SPACEBAR to reset", 10, 50);
+  //text("Program execution SoC millis :", 10, 44);
+  //text(str(s.time()), 56, 44);
+  //text("Press 'P' to pause/resume, 'R' to restart and SPACEBAR to reset", 10, 50);
   // User Dashboard
 }
 
@@ -278,7 +278,7 @@ void keyPressed() {
     println("Game restarted...");
     counter = 0;
     break;
-  case 'H':
+  case 'h':
     H0.setVisible(true);
     H1.setVisible(true);
     H2.setVisible(true);
