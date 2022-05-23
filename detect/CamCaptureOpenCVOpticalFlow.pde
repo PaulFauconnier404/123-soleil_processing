@@ -4,8 +4,11 @@ import java.awt.*;
 import lord_of_galaxy.timing_utils.*;
 import ddf.minim.*;
 
-Minim minim;
-AudioPlayer detect;
+//Minim minim;
+//AudioPlayer detect;
+
+//AudioPlayer un, deux, trois, soleil;
+
 
 Capture cam_;
 OpenCV opencv_;
@@ -19,7 +22,7 @@ float speed = 1.2;
 float value = 0.0;
 int MAX = 255;
 int counter = 0;
-int videoWidth_ = 320;
+int videoWidth_ = 300;
 int videoHeight_ = 180;
 // Tableau des frames images de 2
 PImage[] frames_ = new PImage[2];
@@ -53,10 +56,10 @@ void setup() {
   //Creating a stopwatch to keep time
   s = new Stopwatch(this);
   
+  /*
   minim = new Minim(this);
   detect = minim.loadFile("data/music/TimerRiser.mp3");
-
-  
+*/
   //Start the stopwatch
   s.start();
   smooth();
@@ -211,8 +214,8 @@ void Detection(){
   }
 
   if ( counter >= 100 ) {
-    detect.rewind();
-    detect.play();
+    //detect.rewind();
+    //detect.play();
     fill(255, 255, 255);
     String endGameMessage = "Seuil maximum atteint, perdu !";
     textAlign(CENTER, CENTER);
@@ -305,13 +308,4 @@ void keyPressed() {
   default:
     println("Press 'P' to pause/resume, 'R' to restart and SPACEBAR to reset");
   }
-}
-
-
-
-void stop()
-{
-  
-  minim.stop();
-  super.stop();
 }
