@@ -1,13 +1,7 @@
 class Timer {
 
-  int indexAudio = 0;
-  
-  
-  void countDown(){
-    un = minim.loadFile("data/music/1.mp3");
-    deux = minim.loadFile("data/music/2.mp3");
-    trois = minim.loadFile("data/music/3.mp3");
-    soleil = minim.loadFile("data/music/Soleil.mp3");
+void countDown(){
+    
     
     
     background(255);
@@ -16,32 +10,34 @@ class Timer {
     //Changement des attributs chaque secondes
     if(time > tmpTime +1000){
       tmpTime = time; 
-      
-   
+
+
        switch(indexAudio) {
           case 0: 
-            un.rewind();  // Does not execute
-            un.play(); // Does not execute
+            un.rewind(); 
+            un.play(); 
             break;
-          case 1: 
-            deux.rewind();  // Does not execute
-            deux.play();  // Does not execute
+          case 1:             
+            deux.rewind();
+            deux.play();
             break;
           case 2: 
-            trois.rewind();  // Does not execute
-            trois.play();  // Does not execute
+            trois.rewind();
+            trois.play();
             break;
           case 3: 
-            soleil.rewind(); 
-            soleil.play();  // Does not execute
+            soleil.rewind();
+            soleil.play();
             break;
        }
        
-       if(indexText<3){
+       if(indexText<4){
         
         indexAudio = indexAudio +1;
-        
-        indexText = indexText+1;
+
+        if(indexText<=4){
+          indexText = indexText+1;
+        }
       }
       sizeToReturn = 100;
     }
@@ -70,10 +66,9 @@ class Timer {
         return sizeToReturn;
     }else{
         return sizeToReturn;
-    }
+    }  
+  
+
   }
-
-
-
 
  }//end class 

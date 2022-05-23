@@ -5,10 +5,10 @@ import lord_of_galaxy.timing_utils.*;
 import ddf.minim.*;
 
 Minim minim;
-AudioPlayer detect;
-
+AudioPlayer detect, ambiance;
 AudioPlayer un, deux, trois, soleil;
 
+Boolean gameStart = false;
 
 Capture cam_;
 OpenCV opencv_;
@@ -17,6 +17,7 @@ Stopwatch s;//Declare
 
 // Définition format vidéo
 // Valeures par défaut : H: 180 W: 320
+int indexAudio = 0;
 
 float speed = 1.2;
 float value = 0.0;
@@ -48,10 +49,11 @@ int sizeToReturn = 100;
 String[] valueToDisplay = {"1","2","3", "Soleil"};
 PFont FontCountDown;
 
-int indexAudio = 0;
-
 
 Timer T1 = new Timer();
+Loose L1 = new Loose();
+Launch LA1 = new Launch();
+PointLoose P1 = new PointLoose();
 
 //============
 void setup() {
@@ -59,9 +61,15 @@ void setup() {
   s = new Stopwatch(this);
   
   
+  
   minim = new Minim(this);
-  detect = minim.loadFile("data/music/TimerRiser.mp3");
-
+  detect = minim.loadFile("data/music/Unlock.mp3");
+  ambiance = minim.loadFile("data/music/moodSong.mp3");
+  ambiance.setGain(-10);
+  detect.setGain(16);
+  ambiance.loop();
+  
+  
   //Start the stopwatch
   s.start();
   smooth();
@@ -73,7 +81,10 @@ void setup() {
   H1 = loadShape("data/coeur.svg");
   H2 = loadShape("data/coeur.svg");
 
-
+  un = minim.loadFile("data/music/1.mp3");
+  deux = minim.loadFile("data/music/2.mp3");
+  trois = minim.loadFile("data/music/3.mp3");
+  soleil = minim.loadFile("data/music/Soleil.mp3");
 
   String[] cameras = Capture.list();
 
@@ -88,7 +99,7 @@ void setup() {
 
     // The camera can be initialized directly using an
     // element from the array returned by list():
-    cam_ = new Capture(this, videoWidth_, videoHeight_, cameras[0]);
+    cam_ = new Capture(this, videoWidth_, videoHeight_, cameras[0], 30);
 
     opencv_ = new OpenCV(this, videoWidth_, videoHeight_); // Création de l'objet OpenCV qui prend en paramètre les mensuration de la vidéo
 
@@ -134,90 +145,34 @@ void setup() {
   indexText = 0;
 }
 
-void countDown(){
-    un = minim.loadFile("data/music/1.mp3");
-    deux = minim.loadFile("data/music/2.mp3");
-    trois = minim.loadFile("data/music/3.mp3");
-    soleil = minim.loadFile("data/music/Soleil.mp3");
-    
-    
-    background(255);
-
-
-    //Changement des attributs chaque secondes
-    if(time > tmpTime +1000){
-      tmpTime = time; 
-      
-   
-       switch(indexAudio) {
-          case 0: 
-            un.rewind();  // Does not execute
-            un.play(); // Does not execute
-            break;
-          case 1: 
-            deux.rewind();  // Does not execute
-            deux.play();  // Does not execute
-            break;
-          case 2: 
-            trois.rewind();  // Does not execute
-            trois.play();  // Does not execute
-            break;
-          case 3: 
-            soleil.rewind(); 
-            soleil.play();  // Does not execute
-            break;
-       }
-               indexAudio = indexAudio +1;
-
-       if(indexText<3){
-        
-        
-        indexText = indexText+1;
-      }
-      sizeToReturn = 100;
-    }
-    
-    //Font du texte
-    textFont(FontCountDown, growText());
-  
-    //Positionnement du texte
-    text(valueToDisplay[indexText], width/2, height/2);
-    fill(32,32,32);
-  
-    textAlign(CENTER, CENTER);
-    
-    //Positionnement de l'ombre
-    text(valueToDisplay[indexText], (width/2), (height/2)-7 );
-    fill(180,180,180);
-  }
-  
-    int growText() {  
-    if (sizeToReturn < 200){
-        sizeToReturn = sizeToReturn + 1; 
-        return sizeToReturn;
-    }else{
-        return sizeToReturn;
-    }
-  }
-
 //===========
 void draw() {
 
-   time = millis();
-   
+    time = millis();
 
-   if(time > tmpTimeMain +5000 && time < tmpTimeMain +5100){
+
+
+    if(lifeCircle >= 3 && gameStart == true){
+       L1.Looser();
+    }
+    if(gameStart == false){
+      LA1.Launcher();
+    }
+    
+   if(time > tmpTimeMain +5000 && time < tmpTimeMain +5100 && gameStart == true){
      indexText = 0;
 
    }
-   if(time > tmpTimeMain +5000 && time < tmpTimeMain +9000){ 
+   if(time > tmpTimeMain +5000 && time < tmpTimeMain +9000 && lifeCircle < 3 && gameStart == true){ 
+            
+     T1.countDown();
 
-      T1.countDown();
-
-   }else{
-    Detection();
+   }else if (lifeCircle < 3 && gameStart == true){
+      indexAudio = 0;
+      Detection();
+     
    }
-   if(time > tmpTimeMain +9000){
+   if(time > tmpTimeMain +9000 && gameStart == true){
       tmpTimeMain = time; 
 
    }
@@ -281,18 +236,23 @@ void Detection(){
     first_ = false;
   }
 
-  if ( counter >= 100 ) {
-    //detect.rewind();
-    //detect.play();
+  if ( counter >= 100) {
+    detect.rewind();
+    detect.play();
     fill(255, 255, 255);
-    String endGameMessage = "Seuil maximum atteint, perdu !";
-    textAlign(CENTER, CENTER);
-    text(endGameMessage, 10, 60);
-    background(255);
-    counter = 0;
+    
+    
+    for ( int i = 0; i < 1000; i++ ) {
+              P1.Point();
+
+        }
+
+    
+    counter=0;
     
     if(lifeCircle == 0){
       H2.setVisible(false);
+      
     }
     if(lifeCircle == 1){
       H1.setVisible(false);
@@ -307,24 +267,17 @@ void Detection(){
   noFill();
   stroke(#1560a5);
   strokeWeight(0.6);
-  rect(6, 7.6, 108, 29.6, 2);
+  rect(6, 7.6, 108, 15.6, 2);
   String detectionevel = "Seuil de détection : ";
   fill(255, 255, 255);
   textSize(10);
   textAlign(LEFT, BOTTOM);
-  text(detectionevel, 10, 20);
-  text(counter, 91, 20);
-  text("%", 103, 20);
+  text(detectionevel, 10, 22);
+  text(counter, 91, 22);
+  text("%", 103, 22);
   //Use s.time() to get current time in milliseconds
   textSize(7);
-  text("Chronomètre", 10, 30);
-  //Use these if you want
-  text(s.hour() + ":" + nf(s.minute(), 2) + ":" + nf(s.second(), 2) + ":" + nf(s.millis(), 3), 10, 36.6);
-  textSize(3.6);
-  //text("Program execution SoC millis :", 10, 44);
-  //text(str(s.time()), 56, 44);
-  //text("Press 'P' to pause/resume, 'R' to restart and SPACEBAR to reset", 10, 50);
-  // User Dashboard
+ 
 }
 
 //============================
@@ -350,6 +303,9 @@ void keyPressed() {
     exit();
   }
   switch(key) {
+    case 'v':
+      gameStart = true;
+    break;
   case 'p':
     if (!s.isPaused()) {
       s.pause();//Check if the stopwatch is paused. Pause the stopwatch
@@ -376,4 +332,13 @@ void keyPressed() {
   default:
     println("Press 'P' to pause/resume, 'R' to restart and SPACEBAR to reset");
   }
+}
+
+
+
+
+
+void stop() {
+  minim.stop();
+  super.stop();
 }
