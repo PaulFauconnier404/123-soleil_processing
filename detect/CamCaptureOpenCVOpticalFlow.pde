@@ -2,6 +2,10 @@ import processing.video.*;
 import gab.opencv.*;
 import java.awt.*;
 import lord_of_galaxy.timing_utils.*;
+import ddf.minim.*;
+
+Minim minim;
+AudioPlayer track_123;
 
 Capture cam_;
 OpenCV opencv_;
@@ -48,6 +52,10 @@ Timer T1 = new Timer();
 void setup() {
   //Creating a stopwatch to keep time
   s = new Stopwatch(this);
+  
+  minim = new Minim(this);
+  track_123 = minim.loadFile("/data/music/1 2 3 Soleil (vocal).mp3");
+  
   //Start the stopwatch
   s.start();
   smooth();
@@ -125,7 +133,7 @@ void draw() {
     
    time = millis();
    
-   
+   track_123.play();
 
    if(time > tmpTimeMain +5000 && time < tmpTimeMain +5100){
      indexText = 0;
@@ -293,4 +301,13 @@ void keyPressed() {
   default:
     println("Press 'P' to pause/resume, 'R' to restart and SPACEBAR to reset");
   }
+}
+
+
+
+void stop()
+{
+  
+  minim.stop();
+  super.stop();
 }
