@@ -49,6 +49,7 @@ int sizeToReturn = 100;
 String[] valueToDisplay = {"1","2","3", "Soleil"};
 PFont FontCountDown;
 
+PImage affiche;
 
 Timer T1 = new Timer();
 Loose L1 = new Loose();
@@ -60,13 +61,14 @@ void setup() {
   //Creating a stopwatch to keep time
   s = new Stopwatch(this);
   
-  
+  affiche = loadImage("data/soleil_affiche_v3.png");
+
   
   minim = new Minim(this);
   detect = minim.loadFile("data/music/Unlock.mp3");
   ambiance = minim.loadFile("data/music/moodSong.mp3");
-  ambiance.setGain(-10);
-  detect.setGain(16);
+  ambiance.setGain(-14);
+  detect.setGain(30);
   ambiance.loop();
   
   
@@ -99,7 +101,7 @@ void setup() {
 
     // The camera can be initialized directly using an
     // element from the array returned by list():
-    cam_ = new Capture(this, videoWidth_, videoHeight_, cameras[0], 30);
+    cam_ = new Capture(this, videoWidth_, videoHeight_, cameras[1], 30);
 
     opencv_ = new OpenCV(this, videoWidth_, videoHeight_); // Création de l'objet OpenCV qui prend en paramètre les mensuration de la vidéo
 
@@ -152,11 +154,14 @@ void draw() {
 
 
 
+
     if(lifeCircle >= 3 && gameStart == true){
        L1.Looser();
     }
     if(gameStart == false){
       LA1.Launcher();
+       tmpTimeMain = time; 
+
     }
     
    if(time > tmpTimeMain +5000 && time < tmpTimeMain +5100 && gameStart == true){
@@ -240,12 +245,7 @@ void Detection(){
     detect.rewind();
     detect.play();
     fill(255, 255, 255);
-    
-    
-    for ( int i = 0; i < 1000; i++ ) {
-              P1.Point();
 
-        }
 
     
     counter=0;
