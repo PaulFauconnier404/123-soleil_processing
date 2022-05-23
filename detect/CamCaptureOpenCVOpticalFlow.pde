@@ -4,10 +4,10 @@ import java.awt.*;
 import lord_of_galaxy.timing_utils.*;
 import ddf.minim.*;
 
-//Minim minim;
-//AudioPlayer detect;
+Minim minim;
+AudioPlayer detect;
 
-//AudioPlayer un, deux, trois, soleil;
+AudioPlayer un, deux, trois, soleil;
 
 
 Capture cam_;
@@ -56,10 +56,10 @@ void setup() {
   //Creating a stopwatch to keep time
   s = new Stopwatch(this);
   
-  /*
+  
   minim = new Minim(this);
   detect = minim.loadFile("data/music/TimerRiser.mp3");
-*/
+
   //Start the stopwatch
   s.start();
   smooth();
@@ -86,7 +86,7 @@ void setup() {
 
     // The camera can be initialized directly using an
     // element from the array returned by list():
-    cam_ = new Capture(this, videoWidth_, videoHeight_, cameras[0], 30);
+    cam_ = new Capture(this, videoWidth_, videoHeight_, cameras[0]);
 
     opencv_ = new OpenCV(this, videoWidth_, videoHeight_); // Création de l'objet OpenCV qui prend en paramètre les mensuration de la vidéo
 

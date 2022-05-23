@@ -4,11 +4,11 @@ class Timer {
   
   
   void countDown(){
-    /*un = minim.loadFile("data/music/1.mp3");
+    un = minim.loadFile("data/music/1.mp3");
     deux = minim.loadFile("data/music/2.mp3");
     trois = minim.loadFile("data/music/3.mp3");
     soleil = minim.loadFile("data/music/Soleil.mp3");
-    */
+    
     
     background(255);
 
@@ -17,7 +17,7 @@ class Timer {
     if(time > tmpTime +1000){
       tmpTime = time; 
       
-   /*
+   
        switch(indexAudio) {
           case 0: 
             un.rewind();  // Does not execute
@@ -36,10 +36,10 @@ class Timer {
             soleil.play();  // Does not execute
             break;
        }
-       */
+       
        if(indexText<3){
         
-        //indexAudio = indexAudio +1;
+        indexAudio = indexAudio +1;
         
         indexText = indexText+1;
       }
