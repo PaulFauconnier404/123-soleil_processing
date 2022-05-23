@@ -5,7 +5,7 @@ import lord_of_galaxy.timing_utils.*;
 import ddf.minim.*;
 
 Minim minim;
-AudioPlayer track_123;
+AudioPlayer detect;
 
 Capture cam_;
 OpenCV opencv_;
@@ -54,7 +54,8 @@ void setup() {
   s = new Stopwatch(this);
   
   minim = new Minim(this);
-  track_123 = minim.loadFile("/data/music/1 2 3 Soleil (vocal).mp3");
+  detect = minim.loadFile("data/music/TimerRiser.mp3");
+
   
   //Start the stopwatch
   s.start();
@@ -130,17 +131,18 @@ void setup() {
 
 //===========
 void draw() {
-    
+
    time = millis();
    
-   track_123.play();
 
    if(time > tmpTimeMain +5000 && time < tmpTimeMain +5100){
      indexText = 0;
 
    }
-   if(time > tmpTimeMain +5000 && time < tmpTimeMain +9000){     
+   if(time > tmpTimeMain +5000 && time < tmpTimeMain +9000){ 
+
       T1.countDown();
+
    }else{
     Detection();
    }
@@ -209,6 +211,8 @@ void Detection(){
   }
 
   if ( counter >= 100 ) {
+    detect.rewind();
+    detect.play();
     fill(255, 255, 255);
     String endGameMessage = "Seuil maximum atteint, perdu !";
     textAlign(CENTER, CENTER);

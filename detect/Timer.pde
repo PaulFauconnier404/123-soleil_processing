@@ -1,11 +1,25 @@
 class Timer {
+AudioPlayer un, deux, trois, soleil;
+AudioPlayer[] track123;
 
   void countDown(){
+    un = minim.loadFile("data/music/123Soleil.mp3");
+    deux = minim.loadFile("data/music/123Soleil.mp3");
+    trois = minim.loadFile("data/music/123Soleil.mp3");
+    soleil = minim.loadFile("data/music/123Soleil.mp3");
+    
+    track123 = new AudioPlayer[un, deux, trois, soleil];
+    
     background(255);
+
+
     //Changement des attributs chaque secondes
     if(time > tmpTime +1000){
       tmpTime = time; 
-      
+                
+
+      track123.play();
+
       if(indexText<3){
         indexText = indexText+1;
       }
