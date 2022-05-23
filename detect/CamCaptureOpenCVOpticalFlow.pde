@@ -5,10 +5,10 @@ import lord_of_galaxy.timing_utils.*;
 import ddf.minim.*;
 
 Minim minim;
-AudioPlayer detect;
-
+AudioPlayer detect, ambiance;
 AudioPlayer un, deux, trois, soleil;
 
+Boolean gameStart = false;
 
 Capture cam_;
 OpenCV opencv_;
@@ -17,6 +17,7 @@ Stopwatch s;//Declare
 
 // Définition format vidéo
 // Valeures par défaut : H: 180 W: 320
+int indexAudio = 0;
 
 float speed = 1.2;
 float value = 0.0;
@@ -51,6 +52,8 @@ PFont FontCountDown;
 
 Timer T1 = new Timer();
 Loose L1 = new Loose();
+Launch LA1 = new Launch();
+PointLoose P1 = new PointLoose();
 
 //============
 void setup() {
@@ -58,8 +61,14 @@ void setup() {
   s = new Stopwatch(this);
   
   
+  
   minim = new Minim(this);
-  detect = minim.loadFile("data/music/TimerRiser.mp3");
+  detect = minim.loadFile("data/music/Unlock.mp3");
+  ambiance = minim.loadFile("data/music/moodSong.mp3");
+  ambiance.setGain(-10);
+  detect.setGain(16);
+  ambiance.loop();
+  
   
   //Start the stopwatch
   s.start();
@@ -139,28 +148,31 @@ void setup() {
 //===========
 void draw() {
 
-   time = millis();
-   
-          
+    time = millis();
 
-    if(lifeCircle >= 3){
-  
+
+
+    if(lifeCircle >= 3 && gameStart == true){
        L1.Looser();
     }
+    if(gameStart == false){
+      LA1.Launcher();
+    }
     
-   if(time > tmpTimeMain +5000 && time < tmpTimeMain +5100){
+   if(time > tmpTimeMain +5000 && time < tmpTimeMain +5100 && gameStart == true){
      indexText = 0;
 
    }
-   if(time > tmpTimeMain +5000 && time < tmpTimeMain +9000 && lifeCircle < 3){ 
+   if(time > tmpTimeMain +5000 && time < tmpTimeMain +9000 && lifeCircle < 3 && gameStart == true){ 
+            
+     T1.countDown();
 
-      T1.countDown();
-
-   }else if (lifeCircle < 3){
-     Detection();
+   }else if (lifeCircle < 3 && gameStart == true){
+      indexAudio = 0;
+      Detection();
      
    }
-   if(time > tmpTimeMain +9000){
+   if(time > tmpTimeMain +9000 && gameStart == true){
       tmpTimeMain = time; 
 
    }
@@ -224,15 +236,19 @@ void Detection(){
     first_ = false;
   }
 
-  if ( counter >= 100 ) {
+  if ( counter >= 100) {
     detect.rewind();
     detect.play();
     fill(255, 255, 255);
-    String endGameMessage = "Seuil maximum atteint, perdu !";
-    textAlign(CENTER, CENTER);
-    text(endGameMessage, 10, 60);
-    background(255);
-    counter = 0;
+    
+    
+    for ( int i = 0; i < 1000; i++ ) {
+              P1.Point();
+
+        }
+
+    
+    counter=0;
     
     if(lifeCircle == 0){
       H2.setVisible(false);
@@ -287,6 +303,9 @@ void keyPressed() {
     exit();
   }
   switch(key) {
+    case 'v':
+      gameStart = true;
+    break;
   case 'p':
     if (!s.isPaused()) {
       s.pause();//Check if the stopwatch is paused. Pause the stopwatch
@@ -314,6 +333,10 @@ void keyPressed() {
     println("Press 'P' to pause/resume, 'R' to restart and SPACEBAR to reset");
   }
 }
+
+
+
+
 
 void stop() {
   minim.stop();

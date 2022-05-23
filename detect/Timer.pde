@@ -1,9 +1,6 @@
 class Timer {
 
-  int indexAudio = 0;
-  
-  
-  void countDown(){
+void countDown(){
     
     
     
@@ -13,33 +10,33 @@ class Timer {
     //Changement des attributs chaque secondes
     if(time > tmpTime +1000){
       tmpTime = time; 
-            
-  
+
+
        switch(indexAudio) {
           case 0: 
-                      un.rewind(); // xDoes not execute
-
-            un.play(); // xDoes not execute
+            un.rewind(); 
+            un.play(); 
             break;
-          case 1: 
-            deux.play();  // Does not execute
+          case 1:             
+            deux.rewind();
+            deux.play();
             break;
           case 2: 
-            trois.play();  // Does not execute
+            trois.rewind();
+            trois.play();
             break;
           case 3: 
-            soleil.play();  // Does not execute
+            soleil.rewind();
+            soleil.play();
             break;
        }
        
        if(indexText<4){
         
         indexAudio = indexAudio +1;
-            deux.rewind();  // Does not execute
-            trois.rewind();  // Does not execute
-            soleil.rewind();  // Does not execute
+
         if(indexText<=4){
-        indexText = indexText+1;
+          indexText = indexText+1;
         }
       }
       sizeToReturn = 100;
@@ -69,10 +66,9 @@ class Timer {
         return sizeToReturn;
     }else{
         return sizeToReturn;
-    }
+    }  
+  
+
   }
-
-
-
 
  }//end class 
