@@ -4,10 +4,10 @@ import java.awt.*;
 import lord_of_galaxy.timing_utils.*;
 import ddf.minim.*;
 
-//Minim minim;
-//AudioPlayer detect;
+Minim minim;
+AudioPlayer detect;
 
-//AudioPlayer un, deux, trois, soleil;
+AudioPlayer un, deux, trois, soleil;
 
 
 Capture cam_;
@@ -50,16 +50,17 @@ PFont FontCountDown;
 
 
 Timer T1 = new Timer();
+Loose L1 = new Loose();
 
 //============
 void setup() {
   //Creating a stopwatch to keep time
   s = new Stopwatch(this);
   
-  /*
+  
   minim = new Minim(this);
   detect = minim.loadFile("data/music/TimerRiser.mp3");
-*/
+  
   //Start the stopwatch
   s.start();
   smooth();
@@ -71,7 +72,10 @@ void setup() {
   H1 = loadShape("data/coeur.svg");
   H2 = loadShape("data/coeur.svg");
 
-
+  un = minim.loadFile("data/music/1.mp3");
+  deux = minim.loadFile("data/music/2.mp3");
+  trois = minim.loadFile("data/music/3.mp3");
+  soleil = minim.loadFile("data/music/Soleil.mp3");
 
   String[] cameras = Capture.list();
 
@@ -137,17 +141,24 @@ void draw() {
 
    time = millis();
    
+          
 
+    if(lifeCircle >= 3){
+  
+       L1.Looser();
+    }
+    
    if(time > tmpTimeMain +5000 && time < tmpTimeMain +5100){
      indexText = 0;
 
    }
-   if(time > tmpTimeMain +5000 && time < tmpTimeMain +9000){ 
+   if(time > tmpTimeMain +5000 && time < tmpTimeMain +9000 && lifeCircle < 3){ 
 
       T1.countDown();
 
-   }else{
-    Detection();
+   }else if (lifeCircle < 3){
+     Detection();
+     
    }
    if(time > tmpTimeMain +9000){
       tmpTimeMain = time; 
@@ -214,8 +225,8 @@ void Detection(){
   }
 
   if ( counter >= 100 ) {
-    //detect.rewind();
-    //detect.play();
+    detect.rewind();
+    detect.play();
     fill(255, 255, 255);
     String endGameMessage = "Seuil maximum atteint, perdu !";
     textAlign(CENTER, CENTER);
@@ -225,6 +236,7 @@ void Detection(){
     
     if(lifeCircle == 0){
       H2.setVisible(false);
+      
     }
     if(lifeCircle == 1){
       H1.setVisible(false);
@@ -239,24 +251,17 @@ void Detection(){
   noFill();
   stroke(#1560a5);
   strokeWeight(0.6);
-  rect(6, 7.6, 108, 29.6, 2);
+  rect(6, 7.6, 108, 15.6, 2);
   String detectionevel = "Seuil de détection : ";
   fill(255, 255, 255);
   textSize(10);
   textAlign(LEFT, BOTTOM);
-  text(detectionevel, 10, 20);
-  text(counter, 91, 20);
-  text("%", 103, 20);
+  text(detectionevel, 10, 22);
+  text(counter, 91, 22);
+  text("%", 103, 22);
   //Use s.time() to get current time in milliseconds
   textSize(7);
-  text("Chronomètre", 10, 30);
-  //Use these if you want
-  text(s.hour() + ":" + nf(s.minute(), 2) + ":" + nf(s.second(), 2) + ":" + nf(s.millis(), 3), 10, 36.6);
-  textSize(3.6);
-  //text("Program execution SoC millis :", 10, 44);
-  //text(str(s.time()), 56, 44);
-  //text("Press 'P' to pause/resume, 'R' to restart and SPACEBAR to reset", 10, 50);
-  // User Dashboard
+ 
 }
 
 //============================
@@ -308,4 +313,9 @@ void keyPressed() {
   default:
     println("Press 'P' to pause/resume, 'R' to restart and SPACEBAR to reset");
   }
+}
+
+void stop() {
+  minim.stop();
+  super.stop();
 }
