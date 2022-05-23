@@ -29,7 +29,7 @@ int videoHeight_ = 180;
 PImage[] frames_ = new PImage[2];
 int currentFrameIndex_ = 0;
 boolean first_ = true;
-int scale_ = 6;
+int scale_ = 4;
 PImage fullFrame_ = new PImage(videoWidth_*scale_, videoHeight_*scale_); // Création de la fullFrame
 
 Flow flow_ = null;
@@ -63,7 +63,7 @@ void setup() {
   
   
   minim = new Minim(this);
-  detect = minim.loadFile("data/music/Unlock.mp3");
+  detect = minim.loadFile("data/music/failure.mp3");
   ambiance = minim.loadFile("data/music/moodSong.mp3");
   ambiance.setGain(-10);
   detect.setGain(16);
