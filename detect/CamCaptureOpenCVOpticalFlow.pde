@@ -34,7 +34,7 @@ PImage fullFrame_ = new PImage(videoWidth_*scale_, videoHeight_*scale_); // Cré
 
 Flow flow_ = null;
 HotSpot[] hotSpots_ = new HotSpot[6];
-float flowMagMin_ = 0.45; // Magnitude minimum consignée paramètre de déclenchement de la détection
+float flowMagMin_ = 0.50; // Magnitude minimum consignée paramètre de déclenchement de la détection
 
 //Creation de shape
 PShape H0;
@@ -101,7 +101,7 @@ void setup() {
 
     // The camera can be initialized directly using an
     // element from the array returned by list():
-    cam_ = new Capture(this, videoWidth_, videoHeight_, cameras[1], 30);
+    cam_ = new Capture(this, videoWidth_, videoHeight_, cameras[0], 30);
 
     opencv_ = new OpenCV(this, videoWidth_, videoHeight_); // Création de l'objet OpenCV qui prend en paramètre les mensuration de la vidéo
 

@@ -4,7 +4,7 @@ void countDown(){
     
     
     
-    background(255);
+    background(0);
 
 
     //Changement des attributs chaque secondes
@@ -47,7 +47,7 @@ void countDown(){
   
     //Positionnement du texte
     text(valueToDisplay[indexText], width/2, height/2);
-    fill(32,32,32);
+    fill(255);
   
     textAlign(CENTER, CENTER);
     
